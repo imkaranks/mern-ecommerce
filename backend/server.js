@@ -1,25 +1,26 @@
 const express = require('express');
 const app = require('./app');
 const connect = require('./db/connect');
-const productRouter = require('./routes/product');
+
+/* ===[ Handling Uncaught Exception ]=== */
+process.on('uncaughtException', (err) => {
+  console.log(`Error: ${err.message}`);
+  console.log("Shutting the server down due to uncaught exception");
+  process.exit(1);
+});
 
 /* ===[ Config ]=== */
 require('dotenv').config({
   path: 'backend/config/config.env'
 });
 
-/* ===[ Middlewares ]=== */
-app.use(express.json());
-
-/* ===[ Routes ]=== */
-app.use('/api/v1/product', productRouter);
-
 const port = process.env.PORT || 3000;
+let server;
 
-const server = async () => {
+const startServer = async () => {
   try {
     await connect(process.env.MONGO_URI);
-    app.listen(port, () => {
+    server = app.listen(port, () => {
       console.log('server running at http://localhost:%d/api/v1/product', port);
     });
   } catch(error) {
@@ -27,4 +28,14 @@ const server = async () => {
   }
 }
 
-server();
+startServer();
+
+/* ===[ Unhandled Promise Rejection ]=== */
+process.on('unhandledRejection', (err) => {
+  console.log(`Error: ${err.message}`);
+  console.log("Shutting the server down due to unhandled promise rejection");
+
+  server.close(() => {
+    process.exit(1);
+  });
+})
