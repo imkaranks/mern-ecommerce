@@ -2,12 +2,20 @@ const Product = require('../models/product');
 const { StatusCodes } = require('http-status-codes');
 const CustomAPIError = require('../error/custom-error');
 const catchAsyncError = require('../middlewares/catch-async-error');
+const APIFeatures = require('../api/features');
 
 const getAllProducts = catchAsyncError(async (req, res, next) => {
-  const products = await Product.find({});
+  const resultsPerPage = 5;
+  const productCount = await Product.countDocuments();
+  const apiFeature = new APIFeatures(Product.find(), req.query)
+    .search()
+    .filter()
+    .pagination(resultsPerPage);
+  const products = await apiFeature.query;
   res.status(StatusCodes.OK).json({
     success: true,
-    products
+    products,
+    productCount
   });
 });
 
