@@ -7,13 +7,13 @@ const {
   updateProduct,
   deleteProduct
 } = require('../controllers/product');
+const { isUserAuthenticated, authorizeRoles } = require('../middlewares/auth');
 
-router.route('/')
-  .get(getAllProducts)
-  .post(createProduct);
+router.route('/').get(isUserAuthenticated, getAllProducts);
+router.route('/new').post(isUserAuthenticated, authorizeRoles("admin"), createProduct);
 router.route('/:id')
   .get(getProduct)
-  .patch(updateProduct)
-  .delete(deleteProduct);
+  .patch(isUserAuthenticated, authorizeRoles("admin"), updateProduct)
+  .delete(isUserAuthenticated, authorizeRoles("admin"), deleteProduct);
 
 module.exports = router;
