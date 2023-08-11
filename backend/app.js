@@ -3,6 +3,7 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const productRouter = require('./routes/product');
 const userRouter = require('./routes/user');
+const adminRouter = require('./routes/admin');
 
 /* ===[ Error Handler ]=== */
 const errorHandlerMiddleware = require('./middlewares/error-handler');
@@ -14,6 +15,7 @@ app.use(cookieParser());
 /* ===[ Routes ]=== */
 app.use('/api/v1/product', productRouter);
 app.use('/api/v1', userRouter);
+app.use('/api/v1/admin', adminRouter);
 
 app.use(errorHandlerMiddleware);
 

@@ -68,7 +68,7 @@ const forgotPasswd = catchAsyncError(async (req, res, next) => {
       success: true,
       message: `Email sent to ${user.email} successfully`
     })
-  } catch(error) {
+  } catch (error) {
     user.resetPasswordToken = undefined;
     user.resetPasswordExpiry = undefined;
     await user.save({ validateBeforeSave: false });
@@ -81,7 +81,7 @@ const resetPasswd = catchAsyncError(async (req, res, next) => {
     .createHash("sha256")
     .update(req.params.token)
     .digest("hex");
-  
+
   const user = await User.findOne({
     resetPasswordToken,
     resetPasswordExpiry: { $gt: Date.now() }
@@ -90,7 +90,7 @@ const resetPasswd = catchAsyncError(async (req, res, next) => {
   if (!user) {
     return next(new CustomAPIError("Reset password token is invalid or has been expired", StatusCodes.BAD_REQUEST));
   }
-  
+
   if (req.body.password !== req.body.confirmPassword) {
     return next(new CustomAPIError("Password doesn't match", StatusCodes.BAD_REQUEST));
   }
@@ -102,10 +102,113 @@ const resetPasswd = catchAsyncError(async (req, res, next) => {
   sendToken(user, StatusCodes.OK, res);
 });
 
+const getUserDetails = catchAsyncError(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    user
+  });
+});
+
+const updatePassword = catchAsyncError(async (req, res, next) => {
+  const user = await User.findById(req.user.id).select("+password");
+  const { oldPassword, newPassword, confirmPassword } = req.body;
+
+  const isPasswdMatched = user.comparePasswd(oldPassword);
+
+  if (!isPasswdMatched) {
+    return next(new CustomAPIError("Old password is incorrect", StatusCodes.BAD_REQUEST));
+  }
+
+  if (newPassword !== confirmPassword) {
+    return next(new CustomAPIError("Password doesn't match", StatusCodes.BAD_REQUEST));
+  }
+
+  user.password = newPassword;
+
+  await user.save();
+
+  sendToken(user, StatusCodes.OK, res);
+});
+
+const updateProfile = catchAsyncError(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(req.user.id, {
+    name: req.body.name,
+    email: req.body.email
+  }, { new: true, runValidators: true, useFindAndModify: false });
+
+  res.status(StatusCodes.OK).json({
+    success: true
+  });
+});
+
+/*** Admin ***/
+const getAllUsers = catchAsyncError(async (req, res, next) => {
+  const users = await User.find({});
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    users
+  });
+});
+
+/*** Admin ***/
+const getUser = catchAsyncError(async (req, res, next) => {
+  const user = User.findById(req.params.id);
+
+  if (!user) {
+    return next(new CustomAPIError(`User doesn't exist with id: ${req.params.id}`, StatusCodes.NOT_FOUND));
+  }
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    user
+  });
+});
+
+/*** Admin ***/
+const updateUserRole = catchAsyncError(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(req.params.id, {
+    name: req.body.name,
+    email: req.body.email,
+    role: req.body.role
+  }, { new: true, runValidators: true, useFindAndModify: false });
+
+  if (!user) {
+    return next(new CustomAPIError("User doesn't exists", StatusCodes.BAD_REQUEST));
+  }
+
+  res.status(StatusCodes.OK).json({
+    success: true
+  });
+});
+
+/*** Admin ***/
+const deleteUser = catchAsyncError(async (req, res, next) => {
+  const user = await User.findByIdAndDelete(req.params.id);
+
+  if (!user) {
+    return next(new CustomAPIError("User doesn't exists", StatusCodes.BAD_REQUEST));
+  }
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    message: "User deleted successfully"
+  });
+});
+
 module.exports = {
   registerUser,
   loginUser,
   logoutUser,
   forgotPasswd,
-  resetPasswd
+  resetPasswd,
+  getUserDetails,
+  updatePassword,
+  updateProfile,
+  getAllUsers,
+  getUser,
+  updateUserRole,
+  deleteUser
 };

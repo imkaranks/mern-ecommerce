@@ -66,10 +66,84 @@ const deleteProduct = catchAsyncError(async (req, res, next) => {
   });
 });
 
+const createProductReview = catchAsyncError(async (req, res, next) => {
+  const { rating, comment, productId } = req.body;
+
+  const review = {
+    user: req.user.id,
+    name: req.user.name,
+    rating: Number(rating),
+    comment,
+    productId
+  }
+
+  const product = await Product.findById(productId);
+  const isReviewed = product.reviews.find(review => review.user.toString() === req.user._id.toString());
+
+  if (isReviewed) {
+    product.reviews.forEach(review => {
+      if (review => review.user.toString() === req.user._id.toString()) {
+        review.rating = rating;
+        review.comment = comment;
+      }
+    });
+  } else {
+    product.reviews.push(review);
+    product.numOfReviews = product.reviews.length;
+  }
+  product.rating = product.reviews.reduce((acc, review) => acc + review.rating, 0) / product.reviews.length;
+
+  await product.save({ validateBeforeSave: false });
+
+  res.status(StatusCodes.OK).json({
+    success: true
+  });
+});
+
+const getProductReviews = catchAsyncError(async (req, res, next) => {
+  const product = await Product.findById(req.query.id);
+
+  if (!product) {
+    return next(new CustomAPIError(`Product doesn't exist with id: ${req.query.id}`, StatusCodes.NOT_FOUND));
+  }
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    reviews: product.reviews
+  });
+});
+
+const deleteProductReviews = catchAsyncError(async (req, res, next) => {
+  const product = await Product.findById(req.query.productId);
+
+  if (!product) {
+    return next(new CustomAPIError(`Product doesn't exist with id: ${req.query.id}`, StatusCodes.NOT_FOUND));
+  }
+
+  const reviews = product.reviews.filter(review => review._id.toString() !== req.query.id.toString());
+  const numOfReviews = reviews.length;
+  const ratingsSum = reviews.reduce((acc, review) => acc + review.rating, 0);
+  const rating = ratingsSum !== 0 && numOfReviews !== 0 ? ratingsSum/numOfReviews : 0;
+
+  await Product.findByIdAndUpdate(req.query.productId, {
+    numOfReviews,
+    rating,
+    reviews
+  }, { new: true, runValidators: true, useFindAndModify: false });
+
+  res.status(StatusCodes.OK).json({
+    success: true,
+    reviews: product.reviews
+  });
+});
+
 module.exports = {
   getAllProducts,
   getProduct,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  createProductReview,
+  getProductReviews,
+  deleteProductReviews
 };

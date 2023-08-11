@@ -3,17 +3,24 @@ const router = express.Router();
 const {
   getAllProducts,
   getProduct,
-  createProduct,
-  updateProduct,
-  deleteProduct
+  createProductReview,
+  getProductReviews,
+  deleteProductReviews
 } = require('../controllers/product');
-const { isUserAuthenticated, authorizeRoles } = require('../middlewares/auth');
+const { isUserAuthenticated } = require('../middlewares/auth');
 
-router.route('/').get(isUserAuthenticated, getAllProducts);
-router.route('/new').post(isUserAuthenticated, authorizeRoles("admin"), createProduct);
-router.route('/:id')
-  .get(getProduct)
-  .patch(isUserAuthenticated, authorizeRoles("admin"), updateProduct)
-  .delete(isUserAuthenticated, authorizeRoles("admin"), deleteProduct);
+router
+  .route('/')
+  .get(getAllProducts);
+
+router
+  .route('/review')
+  .get(getProductReviews)
+  .delete(isUserAuthenticated, deleteProductReviews)
+  .patch(isUserAuthenticated, createProductReview);
+
+router
+  .route('/:id')
+  .get(getProduct);
 
 module.exports = router;
