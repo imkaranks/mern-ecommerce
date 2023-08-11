@@ -1,6 +1,6 @@
 const Product = require('../models/product');
 const { StatusCodes } = require('http-status-codes');
-const CustomAPIError = require('../error/custom-error');
+const APIError = require('../error/api-error');
 const catchAsyncError = require('../middlewares/catch-async-error');
 const APIFeatures = require('../api/features');
 
@@ -22,7 +22,7 @@ const getAllProducts = catchAsyncError(async (req, res, next) => {
 const getProduct = catchAsyncError(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
   if (!product) {
-    return next(new CustomAPIError("Product not found", StatusCodes.NOT_FOUND));
+    return next(new APIError("Product not found", StatusCodes.NOT_FOUND));
   }
   res.status(StatusCodes.OK).json({
     success: true,
@@ -30,6 +30,7 @@ const getProduct = catchAsyncError(async (req, res, next) => {
   });
 });
 
+/* ===[ Create Product -- Admin ]=== */
 const createProduct = catchAsyncError(async (req, res, next) => {
   req.body.user = req.user.id;
   const product = await Product.create(req.body);
@@ -40,11 +41,12 @@ const createProduct = catchAsyncError(async (req, res, next) => {
   });
 });
 
+/* ===[ Update Product -- Admin ]=== */
 const updateProduct = catchAsyncError(async (req, res, next) => {
   const id = req.params.id;
   const product = await Product.findOneAndUpdate({ _id: id }, req.body, { new: true, runValidators: true });
   if (!product) {
-    return next(new CustomAPIError("Product not found", StatusCodes.NOT_FOUND));
+    return next(new APIError("Product not found", StatusCodes.NOT_FOUND));
   }
   res.status(StatusCodes.OK).json({
     success: true,
@@ -53,11 +55,12 @@ const updateProduct = catchAsyncError(async (req, res, next) => {
   });
 });
 
+/* ===[ Delete Product -- Admin ]=== */
 const deleteProduct = catchAsyncError(async (req, res, next) => {
   const id = req.params.id;
   const product = await Product.findByIdAndDelete(id);
   if (!product) {
-    return next(new CustomAPIError("Product not found", StatusCodes.NOT_FOUND));
+    return next(new APIError("Product not found", StatusCodes.NOT_FOUND));
   }
   res.status(StatusCodes.OK).json({
     success: true,
@@ -104,7 +107,7 @@ const getProductReviews = catchAsyncError(async (req, res, next) => {
   const product = await Product.findById(req.query.id);
 
   if (!product) {
-    return next(new CustomAPIError(`Product doesn't exist with id: ${req.query.id}`, StatusCodes.NOT_FOUND));
+    return next(new APIError(`Product doesn't exist with id: ${req.query.id}`, StatusCodes.NOT_FOUND));
   }
 
   res.status(StatusCodes.OK).json({
@@ -117,7 +120,7 @@ const deleteProductReviews = catchAsyncError(async (req, res, next) => {
   const product = await Product.findById(req.query.productId);
 
   if (!product) {
-    return next(new CustomAPIError(`Product doesn't exist with id: ${req.query.id}`, StatusCodes.NOT_FOUND));
+    return next(new APIError(`Product doesn't exist with id: ${req.query.id}`, StatusCodes.NOT_FOUND));
   }
 
   const reviews = product.reviews.filter(review => review._id.toString() !== req.query.id.toString());

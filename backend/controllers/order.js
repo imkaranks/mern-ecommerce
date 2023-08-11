@@ -1,7 +1,7 @@
 const Order = require('../models/order');
 const Product = require('../models/product');
 const { StatusCodes } = require('http-status-codes');
-const CustomAPIError = require('../error/custom-error');
+const APIError = require('../error/api-error');
 const catchAsyncError = require('../middlewares/catch-async-error');
 
 const createOrder = catchAsyncError(async (req, res, next) => {
@@ -21,7 +21,7 @@ const getOrder = catchAsyncError(async (req, res, next) => {
   const order = await Order.findById(req.params.id).populate('user', 'name email');
 
   if (!order) {
-    return next(new CustomAPIError(`Order not found with id: ${req.params.id}`, StatusCodes.NOT_FOUND));
+    return next(new APIError(`Order not found with id: ${req.params.id}`, StatusCodes.NOT_FOUND));
   }
 
   res.status(StatusCodes.OK).json({
@@ -57,11 +57,11 @@ const updateOrder = catchAsyncError(async (req, res, next) => {
   const order = await Order.findById(req.params.id);
 
   if (!order) {
-    return next(new CustomAPIError(`Order doesn't exist with id: ${req.params.id}`, StatusCodes.NOT_FOUND));
+    return next(new APIError(`Order doesn't exist with id: ${req.params.id}`, StatusCodes.NOT_FOUND));
   }
 
   if (order.orderStatus === 'Delivered') {
-    return next(new CustomAPIError('Order has been already delivered', StatusCodes.BAD_REQUEST));
+    return next(new APIError('Order has been already delivered', StatusCodes.BAD_REQUEST));
   }
 
   if (req.body.status === "Shipped") {
@@ -95,7 +95,7 @@ const deleteOrder = catchAsyncError(async (req, res, next) => {
   const order = await Order.findByIdAndDelete(req.params.id);
 
   if (!order) {
-    return next(new CustomAPIError(`Order doesn't exist with id: ${req.params.id}`, StatusCodes.NOT_FOUND));
+    return next(new APIError(`Order doesn't exist with id: ${req.params.id}`, StatusCodes.NOT_FOUND));
   }
 
   res.status(StatusCodes.OK).json({

@@ -1,6 +1,6 @@
 const User = require('../models/user');
 const { StatusCodes } = require('http-status-codes');
-const CustomAPIError = require('../error/custom-error');
+const APIError = require('../error/api-error');
 const catchAsyncError = require('../middlewares/catch-async-error');
 const sendToken = require('../utils/jwt-token');
 const sendEmail = require('../utils/send-email');
@@ -23,15 +23,15 @@ const registerUser = catchAsyncError(async (req, res, next) => {
 const loginUser = catchAsyncError(async (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    return next(new CustomAPIError("Please enter email and password", StatusCodes.BAD_REQUEST));
+    return next(new APIError("Please enter email and password", StatusCodes.BAD_REQUEST));
   }
   const user = await User.findOne({ email }).select("+password");
   if (!user) {
-    return next(new CustomAPIError("User doesn't exist", StatusCodes.UNAUTHORIZED));
+    return next(new APIError("User doesn't exist", StatusCodes.UNAUTHORIZED));
   }
   const isPasswdMatched = await user.comparePasswd(password);
   if (!isPasswdMatched) {
-    return next(new CustomAPIError("Invalid email or password", StatusCodes.UNAUTHORIZED))
+    return next(new APIError("Invalid email or password", StatusCodes.UNAUTHORIZED))
   }
   sendToken(user, StatusCodes.OK, res);
 });
@@ -51,7 +51,7 @@ const forgotPasswd = catchAsyncError(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
 
   if (!user) {
-    return next(new CustomAPIError("User not found", StatusCodes.NOT_FOUND));
+    return next(new APIError("User not found", StatusCodes.NOT_FOUND));
   }
 
   const resetToken = user.getResetPasswdToken();
@@ -72,7 +72,7 @@ const forgotPasswd = catchAsyncError(async (req, res, next) => {
     user.resetPasswordToken = undefined;
     user.resetPasswordExpiry = undefined;
     await user.save({ validateBeforeSave: false });
-    return next(new CustomAPIError(error.message, StatusCodes.INTERNAL_SERVER_ERROR))
+    return next(new APIError(error.message, StatusCodes.INTERNAL_SERVER_ERROR))
   }
 });
 
@@ -88,11 +88,11 @@ const resetPasswd = catchAsyncError(async (req, res, next) => {
   });
 
   if (!user) {
-    return next(new CustomAPIError("Reset password token is invalid or has been expired", StatusCodes.BAD_REQUEST));
+    return next(new APIError("Reset password token is invalid or has been expired", StatusCodes.BAD_REQUEST));
   }
 
   if (req.body.password !== req.body.confirmPassword) {
-    return next(new CustomAPIError("Password doesn't match", StatusCodes.BAD_REQUEST));
+    return next(new APIError("Password doesn't match", StatusCodes.BAD_REQUEST));
   }
 
   user.password = req.body.password;
@@ -118,11 +118,11 @@ const updatePassword = catchAsyncError(async (req, res, next) => {
   const isPasswdMatched = user.comparePasswd(oldPassword);
 
   if (!isPasswdMatched) {
-    return next(new CustomAPIError("Old password is incorrect", StatusCodes.BAD_REQUEST));
+    return next(new APIError("Old password is incorrect", StatusCodes.BAD_REQUEST));
   }
 
   if (newPassword !== confirmPassword) {
-    return next(new CustomAPIError("Password doesn't match", StatusCodes.BAD_REQUEST));
+    return next(new APIError("Password doesn't match", StatusCodes.BAD_REQUEST));
   }
 
   user.password = newPassword;
@@ -143,7 +143,7 @@ const updateProfile = catchAsyncError(async (req, res, next) => {
   });
 });
 
-/*** Admin ***/
+/* ===[ Get All User -- Admin ]=== */
 const getAllUsers = catchAsyncError(async (req, res, next) => {
   const users = await User.find({});
 
@@ -153,12 +153,12 @@ const getAllUsers = catchAsyncError(async (req, res, next) => {
   });
 });
 
-/*** Admin ***/
+/* ===[ Get User -- Admin ]=== */
 const getUser = catchAsyncError(async (req, res, next) => {
   const user = User.findById(req.params.id);
 
   if (!user) {
-    return next(new CustomAPIError(`User doesn't exist with id: ${req.params.id}`, StatusCodes.NOT_FOUND));
+    return next(new APIError(`User doesn't exist with id: ${req.params.id}`, StatusCodes.NOT_FOUND));
   }
 
   res.status(StatusCodes.OK).json({
@@ -167,7 +167,7 @@ const getUser = catchAsyncError(async (req, res, next) => {
   });
 });
 
-/*** Admin ***/
+/* ===[ Update User Role -- Admin ]=== */
 const updateUserRole = catchAsyncError(async (req, res, next) => {
   const user = await User.findByIdAndUpdate(req.params.id, {
     name: req.body.name,
@@ -176,7 +176,7 @@ const updateUserRole = catchAsyncError(async (req, res, next) => {
   }, { new: true, runValidators: true, useFindAndModify: false });
 
   if (!user) {
-    return next(new CustomAPIError("User doesn't exists", StatusCodes.BAD_REQUEST));
+    return next(new APIError("User doesn't exists", StatusCodes.BAD_REQUEST));
   }
 
   res.status(StatusCodes.OK).json({
@@ -184,12 +184,12 @@ const updateUserRole = catchAsyncError(async (req, res, next) => {
   });
 });
 
-/*** Admin ***/
+/* ===[ Delete User -- Admin ]=== */
 const deleteUser = catchAsyncError(async (req, res, next) => {
   const user = await User.findByIdAndDelete(req.params.id);
 
   if (!user) {
-    return next(new CustomAPIError("User doesn't exists", StatusCodes.BAD_REQUEST));
+    return next(new APIError("User doesn't exists", StatusCodes.BAD_REQUEST));
   }
 
   res.status(StatusCodes.OK).json({
