@@ -10,7 +10,9 @@ import ReviewCard from '../components/ReviewCard'
 function ProductDetails() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { product, loading, error } = useSelector(state => state.productDetails);
+  const { product, loading, error } = useSelector(
+    state => state.productDetails
+  );
   const [isTruncated, setIsTruncated] = useState(true);
 
   useEffect(() => {
@@ -50,10 +52,16 @@ function ProductDetails() {
                 <del className='text-[#999]'>₹{product.price}</del>
                 <ins className='no-underline text-[#333]'>₹{product.price * 95 / 100}</ins>
               </p>
-              <p className='md:text-lg mt-3'>{isTruncated ? product.desc.slice(0, 200) + '...' : product.desc}</p>
-              <button className='px-5 py-1.5 uppercase bg-[#eee] text-sm text-black font-medium' onClick={() => setIsTruncated(prev => !prev)}>
-                {isTruncated ? 'Read more' : 'Read less'}
-              </button>
+
+              {
+                product.desc && product.desc.length > 200 ? <>
+                  <p className='md:text-lg mt-3'>{isTruncated ? product.desc.slice(0, 200) + '...' : product.desc}</p>
+                  <button className='px-5 py-1.5 uppercase bg-[#eee] text-sm text-black font-medium' onClick={() => setIsTruncated(prev => !prev)}>
+                    {isTruncated ? 'Read more' : 'Read less'}
+                  </button>
+                </> : <p className='md:text-lg mt-3'>{product.desc}</p>
+              }
+
               <p className='text-sm mt-4 uppercase'>
                 <span>Availability:</span>{' '}
                 <span className='text-[#333] font-bold'>{product.stock < 1 ? 'Out of Stock' : 'In Stock'}</span>
