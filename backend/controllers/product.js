@@ -9,13 +9,20 @@ const getAllProducts = catchAsyncError(async (req, res, next) => {
   const productCount = await Product.countDocuments();
   const apiFeature = new APIFeatures(Product.find(), req.query)
     .search()
-    .filter()
-    .pagination(resultsPerPage);
-  const products = await apiFeature.query;
+    .filter();
+
+  let products = await apiFeature.query.clone();
+  let filteredProductCount = products.length;
+  apiFeature.pagination(resultsPerPage);
+
+  products = await apiFeature.query;
+
   res.status(StatusCodes.OK).json({
     success: true,
     products,
-    productCount
+    productCount,
+    resultsPerPage,
+    filteredProductCount
   });
 });
 

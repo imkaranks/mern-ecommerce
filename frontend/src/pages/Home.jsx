@@ -8,7 +8,7 @@ import Loader from '../components/Loader'
 
 function Home() {
   const dispatch = useDispatch();
-  const { loading, error, products, productCount } = useSelector(state => state.products);
+  const { loading, error, products } = useSelector(state => state.products);
 
   useEffect(() => {
     dispatch(getProduct());
@@ -26,7 +26,7 @@ function Home() {
             <h2 className='text-center text-3xl font-semibold'>Featured Products</h2>
             <div className='grid mt-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
               {
-                products.map(product => (
+                products && products.map(product => (
                   <Product key={product._id} {...product} />
                 ))
               }

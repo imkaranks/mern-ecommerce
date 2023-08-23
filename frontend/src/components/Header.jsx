@@ -13,16 +13,16 @@ function Header() {
               <Link to='/'>Home</Link>
             </li>
             <li className='cursor-pointer'>
-              <Link to='/'>Collections</Link>
+              <Link to='/search'>Search</Link>
             </li>
             <li className='cursor-pointer'>
-              <Link to='/'>Products</Link>
+              <Link to='/products'>Products</Link>
             </li>
             <li className='cursor-pointer'>
-              <Link to='/'>Pages</Link>
+              <Link to='/'>Contact</Link>
             </li>
             <li className='cursor-pointer'>
-              <Link to='/'>Features</Link>
+              <Link to='/'>About</Link>
             </li>
           </ul>
         </nav>

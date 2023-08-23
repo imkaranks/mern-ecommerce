@@ -4,7 +4,7 @@ import RatingStars from './RatingStars'
 
 function Product({ _id, name, images, numOfReviews, price, rating, category }) {
   return (
-    <Link to={`product/${_id}`}>
+    <Link to={`/product/${_id}`}>
       <article className='text-center transition-all duration-300 cursor-pointer ease group hover:shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] hover:bg-white'>
         <div className='aspect-square relative overflow-hidden'>
           <img className='w-full h-full object-cover transition-transform duration-300 ease group-hover:scale-110' src={images[0].url} alt="..." />
