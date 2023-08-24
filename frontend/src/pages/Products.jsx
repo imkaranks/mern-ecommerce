@@ -5,8 +5,9 @@ import { clearErrors, getProduct } from '../actions/productAction'
 import Loader from '../components/Loader'
 import Product from '../components/Product'
 import Paginate from '../components/Paginate'
-import { Slider, Typography } from '@mui/material'
+import { Slider, TextField, FormControlLabel, Checkbox } from '@mui/material'
 import MetaData from '../components/MetaData'
+import Dropdown from '../components/Dropdown'
 
 const categories = [
   'laptop',
@@ -47,55 +48,104 @@ function Products() {
     loading ? <Loader />
       : <>
         <MetaData title='Ecommerce | Products' />
-        <div className='w-11/12 max-w-7xl mx-auto'>
-          <h2 className='text-center text-3xl font-semibold'>Products</h2>
-          <div className='grid mt-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+        <div className='w-11/12 max-w-7xl mx-auto flex flex-col sm:flex-wrap gap-4 sm:flex-row'>
+
+          <div className='border px-4 py-2 sm:flex-[0.5] sm:max-w-xs'>
+            <Dropdown label='Price'>
+              <div className='overflow-hidden px-4'>
+                <Slider
+                  value={price}
+                  onChange={priceHandler}
+                  valueLabelDisplay='auto'
+                  aria-labelledby='range-slider'
+                  min={0}
+                  max={25000}
+                />
+                <div className='grid gap-2 grid-cols-2 -mx-2'>
+                  <TextField
+                    disabled
+                    id="minimum"
+                    label="Minimum"
+                    defaultValue={price[0]}
+                    size='small'
+                  />
+                  <TextField
+                    disabled
+                    id="maximum"
+                    label="Maximum"
+                    defaultValue={price[1]}
+                    size='small'
+                  />
+                </div>
+              </div>
+            </Dropdown>
+
+            <Dropdown label='Categories'>
+              <ul className='text-gray-600 font-normal overflow-hidden capitalize'>
+                {
+                  categories.map((category, i) => (
+                    <li
+                      key={i}
+                      className='px-4 py-1 cursor-pointer transition-colors duration-300 hover:rounded-full hover:bg-[whitesmoke]'
+                      onClick={() => setCategory(category)}
+                    >
+                      {category}
+                    </li>
+                  ))
+                }
+              </ul>
+            </Dropdown>
+
+            <Dropdown label='Rating Above'>
+              <div className='px-4 overflow-hidden'>
+                <Slider
+                  value={rating}
+                  onChange={(e, val) => {
+                    setRating(val);
+                  }}
+                  valueLabelDisplay='auto'
+                  aria-labelledby='continuous-slider'
+                  min={0}
+                  max={5}
+                />
+              </div>
+            </Dropdown>
+
+            <Dropdown label='Availability'>
+              <div className='overflow-hidden'>
+                <FormControlLabel
+                  label='In Stock'
+                  control={
+                    <Checkbox
+                      inputProps={{ 'aria-label': 'In Stock' }}
+                      defaultChecked
+                      size='small'
+                    />
+                  }
+                />
+                <FormControlLabel
+                  label='Out of Stock'
+                  control={
+                    <Checkbox
+                      inputProps={{ 'aria-label': 'Out of Stock' }}
+                      size='small'
+                    />
+                  }
+                />
+              </div>
+            </Dropdown>
+          </div>
+
+          <div className='sm:flex-1 grid grid-cols-product gap-4'>
+            <h2 className='mb-8 text-center text-xl font-bold uppercase col-span-full'>Products</h2>
             {
               products && products.map(product => (
                 <Product key={product._id} {...product} />
               ))
             }
           </div>
-          <div className='filter-box'>
-            <Typography>Price</Typography>
-            <Slider
-              value={price}
-              onChange={priceHandler}
-              valueLabelDisplay='auto'
-              aria-labelledby='range-slider'
-              min={0}
-              max={25000}
-            />
 
-            <Typography>Categories</Typography>
-            <ul className='font-normal capitalize'>
-              {
-                categories.map((category, i) => (
-                  <li
-                    key={i}
-                    className='p-2 cursor-pointer transition-colors hover:text-[tomato]'
-                    onClick={() => setCategory(category)}
-                  >
-                    {category}
-                  </li>
-                ))
-              }
-            </ul>
-
-            <fieldset>
-              <Typography component='legend'>Rating Above</Typography>
-              <Slider
-                value={rating}
-                onChange={(e, val) => {
-                  setRating(val);
-                }}
-                valueLabelDisplay='auto'
-                aria-labelledby='continuous-slider'
-                min={0}
-                max={5}
-              />
-            </fieldset>
-          </div>
+          <div className='w-full'>
           {
             resultsPerPage < filteredProductCount && (
               <Paginate
@@ -106,6 +156,7 @@ function Products() {
               />
             )
           }
+          </div>
         </div>
       </>
   )

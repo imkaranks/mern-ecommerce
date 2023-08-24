@@ -1,44 +1,94 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 function Header() {
-  return (
-    <header>
-      <div className='w-11/12 max-w-7xl mx-auto flex justify-between items-center py-4'>
-        <Link to='/' className='text-xl sm:text-2xl md:text-3xl font-bold'>Logo</Link>
+  const [expanded, setExpanded] = useState(false);
+  const activeLink = 'text-blue-400 before:content-[""] before:absolute before:left-0 before:right-0 before:bottom-0 before:h-1 md:before:bg-blue-400';
 
-        <nav>
-          <ul className='flex gap-6 items-center'>
-            <li className='cursor-pointer'>
-              <Link to='/'>Home</Link>
+  return (
+    <header className='py-4'>
+      <div className='w-11/12 max-w-7xl mx-auto flex gap-6 justify-between items-center'>
+        <Link to='/' className='text-xl sm:text-2xl lg:text-3xl font-bold'>Ecomm</Link>
+
+        <nav className={`fixed text-white z-40 top-0 bottom-0 left-0 w-4/5 transition-transform duration-300 ${expanded ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:w-auto bg-neutral-800 md:static md:bg-transparent md:text-black`}>
+          <button className='absolute top-4 right-4 md:hidden' onClick={() => setExpanded(!expanded)}>
+            <span className='sr-only'>Close</span>
+            <CloseIcon />
+          </button>
+          <ul className='flex flex-col py-14 md:py-0 text-sm uppercase font-medium md:flex-row'>
+            <li className='py-2 border-b border-b-neutral-700 md:py-0 md:border-b-0'>
+              <NavLink
+                to='/'
+                className={({ isActive }) =>
+                  `relative p-4 ${isActive && activeLink}`
+                }
+              >
+                Home
+              </NavLink>
             </li>
-            <li className='cursor-pointer'>
-              <Link to='/search'>Search</Link>
+            <li className='py-2 border-b border-b-neutral-700 md:py-0 md:border-b-0'>
+              <NavLink
+                to='/products'
+                className={({ isActive }) =>
+                  `relative p-4 ${isActive && activeLink}`
+                }
+              >
+                Products
+              </NavLink>
             </li>
-            <li className='cursor-pointer'>
-              <Link to='/products'>Products</Link>
+            <li className='py-2 border-b border-b-neutral-700 md:py-0 md:border-b-0'>
+              <NavLink
+                to='/search'
+                className={({ isActive }) =>
+                  `relative p-4 ${isActive && activeLink}`
+                }
+              >
+                Search
+              </NavLink>
             </li>
-            <li className='cursor-pointer'>
-              <Link to='/'>Contact</Link>
+            <li className='py-2 border-b border-b-neutral-700 md:py-0 md:border-b-0'>
+              <NavLink
+                to='/about'
+                className={({ isActive }) =>
+                  `relative p-4 ${isActive && activeLink}`
+                }
+              >
+                About
+              </NavLink>
             </li>
-            <li className='cursor-pointer'>
-              <Link to='/'>About</Link>
+            <li className='py-2 border-b border-b-neutral-700 md:py-0 md:border-b-0'>
+              <NavLink
+                to='/contact'
+                className={({ isActive }) =>
+                  `relative p-4 ${isActive && activeLink}`
+                }
+              >
+                Contact
+              </NavLink>
             </li>
           </ul>
         </nav>
 
         <div className='flex items-center gap-6'>
+          <button className='md:hidden' onClick={() => setExpanded(!expanded)}>
+            <span className='sr-only'>Close</span>
+            {
+              expanded
+              ? <CloseIcon />
+              : <MenuIcon />
+            }
+          </button>
           <button>
             <span className='sr-only'>Profile</span>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-            </svg>
+            <PersonOutlineIcon />
           </button>
           <button>
             <span className='sr-only'>Wishlist</span>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-            </svg>
+            <FavoriteBorderIcon />
           </button>
           <button>
             <span className='sr-only'>Cart</span>
