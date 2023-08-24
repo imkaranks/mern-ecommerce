@@ -48,7 +48,7 @@ function Products() {
     loading ? <Loader />
       : <>
         <MetaData title='Ecommerce | Products' />
-        <div className='w-11/12 max-w-7xl mx-auto flex flex-col sm:flex-wrap gap-4 sm:flex-row'>
+        <div className='w-11/12 max-w-7xl mx-auto py-8 flex flex-col sm:flex-wrap gap-4 sm:flex-row'>
 
           <div className='border px-4 py-2 sm:flex-[0.5] sm:max-w-xs'>
             <Dropdown label='Price'>

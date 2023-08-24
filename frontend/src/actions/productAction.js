@@ -10,14 +10,32 @@ import {
   CLEAR_ERRORS
 } from '../constants/productConstant';
 
-export const getProduct = (keyword='', currentPage=1, price=[0, 25000], category, rating=0) => async (dispatch) => {
+export const getProduct = (keyword, currentPage, price, category, rating) => async (dispatch) => {
   try {
+    let fetchURL = 'http://localhost:3000/api/v1/product';
     dispatch({ type: ALL_PRODUCT_REQUEST });
-    let apiLink = `http://localhost:3000/api/v1/product?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&rating[gte]=${rating}`;
-    if (category) {
-      apiLink = `http://localhost:3000/api/v1/product?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&rating[gte]=${rating}&category=${category}`;
+    const query = [];
+    if (keyword) {
+      query.push(`keyword=${keyword}`);
     }
-    const { data } = await axios.get(apiLink);
+    if (currentPage) {
+      query.push(`page=${currentPage}`);
+    }
+    if (price) {
+      query.push(`price[gte]=${price[0]}&price[lte]=${price[1]}`);
+    }
+    if (category) {
+      query.push(`category=${category}`);
+    }
+    if (rating) {
+      query.push(`rating[gte]=${rating}`);
+    }
+
+    if (query.length > 0) {
+      fetchURL += `?${query.join('&')}`;
+    }
+
+    const { data } = await axios.get(fetchURL);
     dispatch({
       type: ALL_PRODUCT_SUCCESS,
       payload: data
