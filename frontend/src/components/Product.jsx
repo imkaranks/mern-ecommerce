@@ -8,11 +8,11 @@ function Product({ _id, name, images, numOfReviews, price, rating, category }) {
       <article className='text-center transition-all duration-300 cursor-pointer ease group hover:shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px] hover:bg-white'>
         <div className='aspect-square relative overflow-hidden'>
           <img className='w-full h-full object-cover transition-transform duration-300 ease group-hover:scale-110' src={images[0].url} alt="..." />
-          <button className='bg-blue-600 uppercase font-medium text-sm text-white px-5 py-2 transition-transform duration-300 ease absolute left-0 right-0 bottom-0 translate-y-full group-hover:translate-y-0 focus:translate-y-0 z-10'>Quick view</button>
+          <button className='bg-blue-600 uppercase font-medium font-accent text-xs text-white px-5 py-2 transition-transform duration-300 ease absolute left-0 right-0 bottom-0 translate-y-full group-hover:translate-y-0 focus:translate-y-0 z-10'>Quick view</button>
         </div>
         <div className='px-4 pb-4 pt-2'>
           <span className='text-[#888] text-xs uppercase font-light'>{category}</span>
-          <h3 className='text-base font-normal leading-none'>{name}</h3>
+          <h3 className='text-sm font-normal leading-none'>{name}</h3>
           <p className='mt-1 font-semibold text-base'>₹{price}</p>
 
           <RatingStars
@@ -27,7 +27,7 @@ function Product({ _id, name, images, numOfReviews, price, rating, category }) {
               </svg>
             </button>
 
-            <button className='px-5 py-1.5 uppercase bg-[#eee] text-xs text-black font-medium transition-colors duration-300 ease group-hover:bg-black group-hover:text-white'>Add to cart</button>
+            <button className='px-5 py-1.5 uppercase bg-[#eee] text-xs text-black font-medium font-accent transition-colors duration-300 ease group-hover:bg-black group-hover:text-white'>Add to cart</button>
 
             <button className='border text-[#333] p-1.5 -translate-x-full opacity-0 transition-transform duration-300 ease group-hover:translate-x-0 group-hover:opacity-100 focus:translate-x-0 focus:opacity-100'>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-3.5 h-3.5">

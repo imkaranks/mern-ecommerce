@@ -8,7 +8,7 @@ function Dropdown({ children, label }) {
   return (
     <div className='py-2 text-sm border-b'>
       <button
-        className='w-full font-medium uppercase inline-flex justify-between items-center'
+        className='w-full font-medium font-accent uppercase inline-flex justify-between items-center'
         onClick={() => setExpanded(!expanded)}
         aria-expanded={expanded}
       >

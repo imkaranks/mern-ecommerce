@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Carousel from 'react-material-ui-carousel'
 import { useDispatch, useSelector } from 'react-redux'
-import { getProductDetails } from '../actions/productAction'
+import { clearErrors, getProductDetails } from '../actions/productAction'
 import Loader from '../components/Loader'
 import RatingStars from '../components/RatingStars'
 import ReviewCard from '../components/ReviewCard'
@@ -17,8 +17,13 @@ function ProductDetails() {
   const [isTruncated, setIsTruncated] = useState(true);
 
   useEffect(() => {
+    if (error) {
+      alert(error);
+      dispatch(clearErrors());
+    }
+
     dispatch(getProductDetails(id))
-  }, [dispatch]);
+  }, [dispatch, error]);
 
   return (
     loading
@@ -44,7 +49,7 @@ function ProductDetails() {
             </div>
             <div className='flex-1 text-[#666]'>
               <div>
-                <h2 className='text-[#333] text-3xl font-bold'>{product.name}</h2>
+                <h2 className='text-[#333] text-3xl font-bold font-accent'>{product.name}</h2>
                 <RatingStars
                   rating={product.rating}
                   numOfReviews={product.numOfReviews}
@@ -89,7 +94,7 @@ function ProductDetails() {
                     </button>
                   </div>
 
-                  <button className='px-5 py-1.5 uppercase bg-black text-lg text-white font-medium transition-colors duration-300 ease'>Add to cart</button>
+                  <button className='px-8 py-1.5 uppercase bg-black text-lg text-white font-medium font-accent transition-colors duration-300 ease'>Add to cart</button>
 
                   <button className='border text-[#333] p-1.5'>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
@@ -108,7 +113,7 @@ function ProductDetails() {
             </div>
           </div>
           <div className='mt-6'>
-            <h3 className='uppercase text-xl font-semibold'>Customer Reviews</h3>
+            <h3 className='uppercase text-xl font-accent font-semibold'>Customer Reviews</h3>
             <RatingStars
               rating={product.rating}
               numOfReviews={product.numOfReviews}

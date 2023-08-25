@@ -1,11 +1,12 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import './App.css';
 import Layout from './components/Layout';
+import Home from './pages/Home';
 import ProductDetails from './pages/ProductDetails';
 import Products from './pages/Products';
 import Search from './pages/Search';
+import UserAuth from './pages/UserAuth';
+import './App.css';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path='products' element={<Products />} />
         <Route path='products/:keyword' element={<Products />} />
         <Route path='search' element={<Search />} />
+        <Route path='auth' element={<UserAuth />} />
       </Route>
     </Routes>
   );

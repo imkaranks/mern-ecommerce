@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
@@ -7,19 +8,20 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 function Header() {
   const [expanded, setExpanded] = useState(false);
+  const { user } = useSelector(state => state.user);
   const activeLink = 'text-blue-400 before:content-[""] before:absolute before:left-0 before:right-0 before:bottom-0 before:h-1 md:before:bg-blue-400';
 
   return (
     <header className='py-4'>
       <div className='w-11/12 max-w-7xl mx-auto flex gap-6 justify-between items-center'>
-        <Link to='/' className='text-xl sm:text-2xl lg:text-3xl font-bold'>Ecomm</Link>
+        <Link to='/' className='text-xl sm:text-2xl lg:text-3xl font-bold font-accent'>Ecomm</Link>
 
-        <nav className={`fixed text-white z-40 top-0 bottom-0 left-0 w-4/5 transition-transform duration-300 ${expanded ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:w-auto bg-neutral-800 md:static md:bg-transparent md:text-black`}>
+        <nav className={`fixed text-white font-accent z-40 top-0 bottom-0 left-0 w-4/5 transition-transform duration-300 ${expanded ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:w-auto bg-neutral-800 md:static md:bg-transparent md:text-black`}>
           <button className='absolute top-4 right-4 md:hidden' onClick={() => setExpanded(!expanded)}>
             <span className='sr-only'>Close</span>
             <CloseIcon />
           </button>
-          <ul className='flex flex-col py-14 md:py-0 text-sm uppercase font-medium md:flex-row'>
+          <ul className='flex flex-col py-14 md:py-0 text-sm uppercase font-semibold md:flex-row'>
             <li className='py-2 border-b border-b-neutral-700 md:py-0 md:border-b-0'>
               <NavLink
                 to='/'
@@ -75,17 +77,23 @@ function Header() {
 
         <div className='flex items-center gap-6'>
           <button className='md:hidden' onClick={() => setExpanded(!expanded)}>
-            <span className='sr-only'>Close</span>
-            {
-              expanded
-              ? <CloseIcon />
-              : <MenuIcon />
-            }
+            <span className='sr-only'>Menu</span>
+            <MenuIcon />
           </button>
-          <button>
+          <Link to='/auth'>
             <span className='sr-only'>Profile</span>
-            <PersonOutlineIcon />
-          </button>
+            {
+              user && user.avatar
+              ? (
+                <img
+                  className='w-7 aspect-square rounded-full object-cover object-center'
+                  src={user.avatar.url}
+                  alt="Avatar Preview"
+                />
+              )
+              : <PersonOutlineIcon />
+            }
+          </Link>
           <button>
             <span className='sr-only'>Wishlist</span>
             <FavoriteBorderIcon />

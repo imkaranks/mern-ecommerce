@@ -41,8 +41,13 @@ function Products() {
   }
 
   useEffect(() => {
+    if (error) {
+      alert(error);
+      dispatch(clearErrors());
+    }
+
     dispatch(getProduct(keyword, currentPage, price, category, rating));
-  }, [dispatch, keyword, currentPage, price, category, rating]);
+  }, [dispatch, error, keyword, currentPage, price, category, rating]);
 
   return (
     loading ? <Loader />
@@ -137,7 +142,7 @@ function Products() {
           </div>
 
           <div className='sm:flex-1 grid grid-cols-product gap-4'>
-            <h2 className='mb-8 text-center text-xl font-bold uppercase col-span-full'>Products</h2>
+            <h2 className='mb-8 text-center text-neutral-800 text-xl font-bold font-accent uppercase col-span-full'>Products</h2>
             {
               products && products.map(product => (
                 <Product key={product._id} {...product} />

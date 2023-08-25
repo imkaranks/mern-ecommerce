@@ -14,7 +14,7 @@ function RatingStars({ rating, numOfReviews, className }) {
   return (
     <div className={className || 'flex gap-2 items-center justify-center'}>
       <ReactStars {...options} />
-      {numOfReviews && <span className='text-xs text-[#888]'>{numOfReviews} Review{numOfReviews > 1 && 's'}</span>}
+      {numOfReviews !== undefined && <span className='text-xs text-[#888]'>{numOfReviews} {numOfReviews > 1 ? 'Reviews' : 'Review'}</span>}
     </div>
   )
 }

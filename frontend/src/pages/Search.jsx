@@ -29,7 +29,7 @@ function Search() {
           />
           <input
             type="submit"
-            className='shadow-md bg-[tomato] text-white px-4 py-2 w-1/5 rounded-none font-light transition-colors hover:bg-[tomato]/75'
+            className='shadow-md bg-[tomato] text-white px-4 py-2 w-1/5 rounded-none font-normal font-accent uppercase transition-colors hover:bg-[tomato]/75'
             value='Search'
           />
         </form>

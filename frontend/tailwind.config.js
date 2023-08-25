@@ -8,6 +8,10 @@ export default {
     extend: {
       gridTemplateColumns: {
         product: 'repeat(auto-fit, minmax(min(100%, 224px), 1fr))'
+      },
+      fontFamily: {
+        primary: ['Open Sans', 'sans-serif'],
+        accent: ['Poppins', 'sans-serif']
       }
     },
   },
