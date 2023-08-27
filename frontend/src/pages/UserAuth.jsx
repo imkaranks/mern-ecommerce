@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearErrors, login, register } from '../actions/userAction';
+import MetaData from '../components/MetaData';
 import Loader from '../components/Loader';
 
 function UserAuth() {
@@ -84,7 +85,7 @@ function UserAuth() {
       dispatch(clearErrors());
     }
     if (isAuthenticated) {
-      navigate('/');
+      navigate('/account');
     }
   }, [dispatch, error, isAuthenticated]);
 
@@ -92,6 +93,7 @@ function UserAuth() {
     loading
     ? <Loader />
     : <>
+      <MetaData title='Ecommerce | Authentication' />
       <section className='text-center py-14 bg-[#f9f9f9]'>
         <div className='w-11/12 max-w-7xl mx-auto'>
           <h1 className='text-3xl font-bold text-neutral-800 font-accent'>My Account</h1>

@@ -3,12 +3,14 @@ import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import PersonIcon from '@mui/icons-material/Person';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import Avatar from '@mui/material/Avatar';
+import UserOptions from './UserOptions';
 
 function Header() {
   const [expanded, setExpanded] = useState(false);
-  const { user } = useSelector(state => state.user);
+  const { user, isAuthenticated } = useSelector(state => state.user);
   const activeLink = 'text-blue-400 before:content-[""] before:absolute before:left-0 before:right-0 before:bottom-0 before:h-1 md:before:bg-blue-400';
 
   return (
@@ -80,18 +82,26 @@ function Header() {
             <span className='sr-only'>Menu</span>
             <MenuIcon />
           </button>
+          {
+            isAuthenticated && <UserOptions user={user} />
+          }
           <Link to='/auth'>
             <span className='sr-only'>Profile</span>
             {
               user && user.avatar
               ? (
-                <img
-                  className='w-7 aspect-square rounded-full object-cover object-center'
+                user.avatar.url ?
+                <Avatar
+                  alt={user.name}
                   src={user.avatar.url}
-                  alt="Avatar Preview"
-                />
+                  sx={{ width: 30, height: 30 }}
+                /> : <Avatar sx={{ width: 30, height: 30, fontSize: '0.85rem' }}>{user.name[0]}</Avatar>
               )
-              : <PersonOutlineIcon />
+              : (
+                <Avatar sx={{ width: 30, height: 30 }}>
+                  <PersonIcon />
+                </Avatar>
+              )
             }
           </Link>
           <button>

@@ -12,7 +12,7 @@ import {
 
 export const getProduct = (keyword, currentPage, price, category, rating) => async (dispatch) => {
   try {
-    let fetchURL = 'http://localhost:3000/api/v1/product';
+    let fetchURL = '/api/v1/product';
     dispatch({ type: ALL_PRODUCT_REQUEST });
     const query = [];
     if (keyword) {
@@ -51,7 +51,7 @@ export const getProduct = (keyword, currentPage, price, category, rating) => asy
 export const getProductDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
-    const { data } = await axios.get(`http://localhost:3000/api/v1/product/${id}`);
+    const { data } = await axios.get(`/api/v1/product/${id}`);
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
       payload: data.product
