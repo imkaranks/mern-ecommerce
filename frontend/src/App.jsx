@@ -9,6 +9,7 @@ import Search from './pages/Search';
 import UserAuth from './pages/UserAuth';
 import Profile from './pages/Profile';
 import UpdateProfile from './pages/UpdateProfile';
+import UpdatePassword from './pages/UpdatePassword';
 import store from './app/store';
 import { loadUser } from './actions/userAction';
 import './App.css';
@@ -40,6 +41,14 @@ function App() {
           element={
             <ProtectedRoute>
               <UpdateProfile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='password/update'
+          element={
+            <ProtectedRoute>
+              <UpdatePassword />
             </ProtectedRoute>
           }
         />

@@ -52,7 +52,7 @@ function Profile() {
         <div className='flex flex-col gap-2'>
           <Link to='/me/update' className='inline-flex justify-center px-6 py-2.5 bg-neutral-800 text-white font-semibold font-accent'>Edit Profile</Link>
           <Link className='px-6 py-2.5 inline-flex justify-center bg-neutral-800 text-white font-semibold font-accent'>My Orders</Link>
-          <Link className='px-6 py-2.5 inline-flex justify-center bg-neutral-800 text-white font-semibold font-accent'>Change Password</Link>
+          <Link to='/password/update' className='px-6 py-2.5 inline-flex justify-center bg-neutral-800 text-white font-semibold font-accent'>Change Password</Link>
         </div>
       </div>
     </>
