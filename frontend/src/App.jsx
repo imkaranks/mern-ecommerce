@@ -12,6 +12,7 @@ import UpdateProfile from './pages/UpdateProfile';
 import UpdatePassword from './pages/UpdatePassword';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import Cart from './pages/Cart';
 import store from './app/store';
 import { loadUser } from './actions/userAction';
 import './App.css';
@@ -30,6 +31,7 @@ function App() {
         <Route path='products/:keyword' element={<Products />} />
         <Route path='search' element={<Search />} />
         <Route path='auth' element={<UserAuth />} />
+        <Route path='cart' element={<Cart />} />
         <Route
           path='account'
           element={

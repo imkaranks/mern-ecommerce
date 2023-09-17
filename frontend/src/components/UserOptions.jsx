@@ -8,6 +8,7 @@ import Avatar from '@mui/material/Avatar';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import PersonIcon from '@mui/icons-material/Person';
+import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { logout } from '../actions/userAction';
 
@@ -22,6 +23,9 @@ function UserOptions({ user }) {
     },
     {
       icon: <PersonIcon />, name: 'Profile', onclick: account
+    },
+    {
+      icon: <ShoppingBagOutlinedIcon />, name: 'Cart', onclick: viewCart
     },
     {
       icon: <ExitToAppIcon />, name: 'Logout', onclick: logoutUser
@@ -42,6 +46,10 @@ function UserOptions({ user }) {
 
   function orders() {
     navigate('/orders');
+  }
+
+  function viewCart() {
+    navigate('/cart');
   }
 
   function account() {
@@ -81,6 +89,7 @@ function UserOptions({ user }) {
               icon={option.icon}
               tooltipTitle={option.name}
               onClick={option.onclick}
+              tooltipOpen={window.innerWidth < 600}
             />
           ))
         }

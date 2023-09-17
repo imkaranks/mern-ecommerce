@@ -10,7 +10,12 @@ import UserOptions from './UserOptions';
 
 function Header() {
   const [expanded, setExpanded] = useState(false);
-  const { user, isAuthenticated } = useSelector(state => state.user);
+  const { user, isAuthenticated } = useSelector(
+    state => state.user
+  );
+  const { cartItems } = useSelector(
+    state => state.cart
+  );
   const activeLink = 'text-blue-400 before:content-[""] before:absolute before:left-0 before:right-0 before:bottom-0 before:h-1 md:before:bg-blue-400';
 
   return (
@@ -108,12 +113,19 @@ function Header() {
             <span className='sr-only'>Wishlist</span>
             <FavoriteBorderIcon />
           </button>
-          <button>
+          <Link to='/cart' className='relative'>
             <span className='sr-only'>Cart</span>
+            {
+              cartItems.length ? (
+                <span className="absolute -top-1 -right-1 inline-grid place-items-center w-4 aspect-square bg-[#222] rounded-full text-[0.5rem] text-white">
+                  {cartItems.length}
+                </span>
+              ) : null
+            }
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
             </svg>
-          </button>
+          </Link>
         </div>
       </div>
     </header>

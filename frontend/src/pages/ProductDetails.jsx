@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import Carousel from 'react-material-ui-carousel'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearErrors, getProductDetails } from '../actions/productAction'
+import { addItemToCart } from '../actions/cartAction'
+import Carousel from 'react-material-ui-carousel'
 import Loader from '../components/Loader'
 import RatingStars from '../components/RatingStars'
 import ReviewCard from '../components/ReviewCard'
@@ -15,6 +16,22 @@ function ProductDetails() {
     state => state.productDetails
   );
   const [isTruncated, setIsTruncated] = useState(true);
+  const [quantity, setQuantity] = useState(1);
+
+  const increaseQuantity = () => {
+    if (product.stock <= quantity) return;
+    setQuantity(prev => prev + 1);
+  }
+
+  const decreaseQuantity = () => {
+    if (quantity <= 1) return;
+    setQuantity(prev => prev - 1);
+  }
+
+  const addToCartHandler = () => {
+    dispatch(addItemToCart(id, quantity));
+    alert('Added to cart 🥳');
+  }
 
   useEffect(() => {
     if (error) {
@@ -81,20 +98,25 @@ function ProductDetails() {
                 <hr className='mt-4' />
                 <div className='flex flex-wrap items-center gap-2 my-4'>
                   <div className='flex w-full lg:w-auto'>
-                    <button className='border text-[#333] px-0.5 py-1.5'>
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <button className='border text-[#333] p-1.5' onClick={decreaseQuantity}>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15" />
                       </svg>
                     </button>
-                    <span className='border-y text-lg font-semibold px-4 py-1.5'>1</span>
-                    <button className='border text-[#333] px-0.5 py-1.5'>
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <span className='border-y text-black text-lg font-semibold px-4 py-1.5'>{quantity}</span>
+                    <button className='border text-[#333] p-1.5' onClick={increaseQuantity}>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                       </svg>
                     </button>
                   </div>
 
-                  <button className='px-8 py-1.5 uppercase bg-black text-lg text-white font-medium font-accent transition-colors duration-300 ease'>Add to cart</button>
+                  <button
+                    className='px-8 py-1.5 uppercase bg-black text-lg text-white font-medium font-accent transition-colors duration-300 ease'
+                    onClick={addToCartHandler}
+                  >
+                    Add to cart
+                  </button>
 
                   <button className='border text-[#333] p-1.5'>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
