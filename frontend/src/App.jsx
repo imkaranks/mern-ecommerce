@@ -10,6 +10,8 @@ import UserAuth from './pages/UserAuth';
 import Profile from './pages/Profile';
 import UpdateProfile from './pages/UpdateProfile';
 import UpdatePassword from './pages/UpdatePassword';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import store from './app/store';
 import { loadUser } from './actions/userAction';
 import './App.css';
@@ -51,6 +53,14 @@ function App() {
               <UpdatePassword />
             </ProtectedRoute>
           }
+        />
+        <Route
+          path='password/forgot'
+          element={<ForgotPassword />}
+        />
+        <Route
+          path='password/reset/:token'
+          element={<ResetPassword />}
         />
         {/*
         <Route path='orders' element={<Orders />} />

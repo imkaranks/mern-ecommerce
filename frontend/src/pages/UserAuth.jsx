@@ -137,7 +137,7 @@ function UserAuth() {
               />
             </div>
             <div>
-              <Link className='text-sm text-neutral-600 font-semibold' to='/'>Forgot your password?</Link>
+              <Link className='text-sm text-neutral-600 font-semibold' to='/password/forgot'>Forgot your password?</Link>
             </div>
             <button
               type='submit'
@@ -210,9 +210,6 @@ function UserAuth() {
                 accept="image/*"
                 onChange={registerDataChange}
               />
-            </div>
-            <div>
-              <Link className='text-sm text-neutral-600 font-semibold' to='/'>Forgot your password?</Link>
             </div>
             <button
               type='submit'
