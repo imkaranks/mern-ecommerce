@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearErrors, login, register } from '../actions/userAction';
 import MetaData from '../components/MetaData';
@@ -8,6 +8,7 @@ import Loader from '../components/Loader';
 function UserAuth() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const { error, loading, isAuthenticated } = useSelector(state => state.user);
 
   const [loginEmail, setLoginEmail] = useState('');
@@ -79,13 +80,15 @@ function UserAuth() {
     dispatch(register(formData));
   }
 
+  const redirect = location.search ? '/' + location.search.split('=')[1] : '/account';
+
   useEffect(() => {
     if (error) {
       alert(error);
       dispatch(clearErrors());
     }
     if (isAuthenticated) {
-      navigate('/account');
+      navigate(redirect);
     }
   }, [dispatch, error, isAuthenticated]);
 

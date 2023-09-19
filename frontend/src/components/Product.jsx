@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { addItemToCart, removeItemFromCart } from '../actions/cartAction';
 import RatingStars from './RatingStars'
+import formatPrice from '../utils/formatPrice'
 
 function Product({ _id, name, images, numOfReviews, price, rating, category }) {
   const dispatch = useDispatch();
@@ -26,7 +27,9 @@ function Product({ _id, name, images, numOfReviews, price, rating, category }) {
         <h3 className='text-sm font-normal leading-none'>
           <Link to={`/product/${_id}`}>{name}</Link>
         </h3>
-        <p className='mt-1 font-semibold text-base'>₹{price}</p>
+        <p className='mt-1 font-semibold text-base'>
+          {formatPrice(price)}
+        </p>
 
         <RatingStars
           rating={rating}

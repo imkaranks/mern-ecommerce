@@ -13,6 +13,8 @@ import UpdatePassword from './pages/UpdatePassword';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Cart from './pages/Cart';
+import Shipping from './pages/Shipping';
+import ConfirmOrder from './pages/ConfirmOrder';
 import store from './app/store';
 import { loadUser } from './actions/userAction';
 import './App.css';
@@ -37,6 +39,22 @@ function App() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='shipping'
+          element={
+            <ProtectedRoute>
+              <Shipping />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='order/confirm'
+          element={
+            <ProtectedRoute>
+              <ConfirmOrder />
             </ProtectedRoute>
           }
         />

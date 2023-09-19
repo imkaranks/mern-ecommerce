@@ -8,6 +8,7 @@ import Loader from '../components/Loader'
 import RatingStars from '../components/RatingStars'
 import ReviewCard from '../components/ReviewCard'
 import MetaData from '../components/MetaData'
+import formatPrice from '../utils/formatPrice'
 
 function ProductDetails() {
   const { id } = useParams();
@@ -74,8 +75,12 @@ function ProductDetails() {
                 />
                 <hr className='w-10 mt-3' />
                 <p className='font-bold mt-3 flex items-center gap-2 text-2xl'>
-                  <del className='text-[#999]'>₹{product.price}</del>
-                  <ins className='no-underline text-[#333]'>₹{product.price * 95 / 100}</ins>
+                  <del className='text-[#999]'>
+                    {formatPrice(product.price)}
+                  </del>
+                  <ins className='no-underline text-[#333]'>
+                    {formatPrice(product.price * 95 / 100)}
+                  </ins>
                 </p>
 
                 {
