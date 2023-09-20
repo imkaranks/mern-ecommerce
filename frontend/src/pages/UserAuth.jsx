@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearErrors, login, register } from '../actions/userAction';
 import MetaData from '../components/MetaData';
 import Loader from '../components/Loader';
+import { Form, FormContainer, FormGroup } from '../components/Form';
+import Button from '../components/Button';
 
 function UserAuth() {
   const dispatch = useDispatch();
@@ -94,109 +96,78 @@ function UserAuth() {
 
   return (
     loading
-    ? <Loader />
-    : <>
-      <MetaData title='Ecommerce | Authentication' />
-      <section className='text-center py-14 bg-[#f9f9f9]'>
-        <div className='w-11/12 max-w-7xl mx-auto'>
-          <h1 className='text-3xl font-bold text-neutral-800 font-accent'>My Account</h1>
-        </div>
-      </section>
-
-      <section className='py-8'>
-        <div className='relative w-11/12 max-w-xl mx-auto flex overflow-hidden'>
-          {/* <h2 className='text-neutral-800 font-accent text-xl font-bold'>Login</h2> */}
-
-          <form
-            className='w-full flex-shrink-0 mt-3 space-y-4 transition-transform duration-300'
-            ref={loginTab}
+      ? <Loader />
+      : <>
+        <MetaData title='Ecommerce | Authentication' />
+        <FormContainer
+          multiple={true}
+          label='My Account'
+        >
+          {/* Sign in */}
+          <Form
+            forwardedRef={loginTab}
             encType='multipart/form-data'
             onSubmit={loginSubmit}
           >
-            <div className='flex flex-col gap-1'>
-              <label className='text-neutral-600' htmlFor="login-email">Email Address</label>
-              <input
-                className='px-3 py-2.5 border rounded-none focus:outline-blue-400'
-                type="email"
-                name="email"
-                id="login-email"
-                value={loginEmail}
-                onChange={(e) =>
-                  setLoginEmail(e.target.value)
-                }
-              />
-            </div>
-            <div className='flex flex-col gap-1'>
-              <label className='text-neutral-600' htmlFor="login-password">Password</label>
-              <input
-                className='px-3 py-2.5 border rounded-none focus:outline-blue-400'
-                type="password"
-                name="password"
-                id="login-password"
-                value={loginPasswd}
-                onChange={(e) =>
-                  setLoginPasswd(e.target.value)
-                }
-              />
-            </div>
+            <FormGroup
+              label='Email Address'
+              type='email'
+              value={loginEmail}
+              onChange={(e) => setLoginEmail(e.target.value)}
+            />
+            <FormGroup
+              label='Password'
+              type='password'
+              value={loginPasswd}
+              onChange={(e) => setLoginPasswd(e.target.value)}
+            />
+
             <div>
               <Link className='text-sm text-neutral-600 font-semibold' to='/password/forgot'>Forgot your password?</Link>
             </div>
-            <button
-              type='submit'
-              className='inline-flex items-center justify-center bg-neutral-900 font-accent px-4 py-2.5 sm:py-4 w-full uppercase font-bold text-white transition-colors hover:bg-neutral-700'
-              disabled={loading}
-            >
-              Log in
-            </button>
-            <button
-              type='button'
-              className='inline-flex items-center justify-center bg-neutral-900 font-accent px-4 py-2.5 sm:py-4 w-full uppercase font-bold text-white transition-colors hover:bg-neutral-700'
-              onClick={(e) => switchTabs(e, "register")}
-            >
-              Create an account
-            </button>
-          </form>
 
-          <form
-            className='w-full flex-shrink-0 mt-3 space-y-4 transition-transform duration-300 translate-x-full'
-            ref={registerTab}
+            <Button
+              type='submit'
+              label='Log in'
+              width='full'
+              disabled={loading}
+            />
+            <Button
+              label='Create an account'
+              width='full'
+              onClick={(e) => switchTabs(e, 'register')}
+            />
+          </Form>
+
+          {/* Sign up */}
+          <Form
+            className='translate-x-full'
+            forwardedRef={registerTab}
             encType='multipart/form-data'
             onSubmit={registerSubmit}
           >
-            <div className='flex flex-col gap-1'>
-              <label className='text-neutral-600' htmlFor="register-name">Username</label>
-              <input
-                className='px-3 py-2.5 border rounded-none focus:outline-blue-400'
-                type="text"
-                name="name"
-                id="register-name"
-                value={name}
-                onChange={registerDataChange}
-              />
-            </div>
-            <div className='flex flex-col gap-1'>
-              <label className='text-neutral-600' htmlFor="register-email">Email Address</label>
-              <input
-                className='px-3 py-2.5 border rounded-none focus:outline-blue-400'
-                type="email"
-                name="email"
-                id="register-email"
-                value={email}
-                onChange={registerDataChange}
-              />
-            </div>
-            <div className='flex flex-col gap-1'>
-              <label className='text-neutral-600' htmlFor="register-password">Password</label>
-              <input
-                className='px-3 py-2.5 border rounded-none focus:outline-blue-400'
-                type="password"
-                name="password"
-                id="register-password"
-                value={password}
-                onChange={registerDataChange}
-              />
-            </div>
+            <FormGroup
+              label='Username'
+              type='text'
+              name='name'
+              value={name}
+              onChange={registerDataChange}
+            />
+            <FormGroup
+              label='Email Address'
+              type='email'
+              name='email'
+              value={email}
+              onChange={registerDataChange}
+            />
+            <FormGroup
+              label='Password'
+              type='password'
+              name='password'
+              value={password}
+              onChange={registerDataChange}
+            />
+
             <div className='flex items-center gap-2'>
               <label className='text-neutral-600' htmlFor="avatar">
                 <img
@@ -214,24 +185,21 @@ function UserAuth() {
                 onChange={registerDataChange}
               />
             </div>
-            <button
+
+            <Button
               type='submit'
-              className='inline-flex items-center justify-center bg-neutral-900 font-accent px-4 py-2.5 sm:py-4 w-full uppercase font-bold text-white transition-colors hover:bg-neutral-700'
+              label='Register'
+              width='full'
               disabled={loading}
-            >
-              Register
-            </button>
-            <button
-              type='button'
-              className='inline-flex items-center justify-center bg-neutral-900 font-accent px-4 py-2.5 sm:py-4 w-full uppercase font-bold text-white transition-colors hover:bg-neutral-700'
-              onClick={(e) => switchTabs(e, "login")}
-            >
-              Login account
-            </button>
-          </form>
-        </div>
-      </section>
-    </>
+            />
+            <Button
+              label='Login Account'
+              width='full'
+              onClick={(e) => switchTabs(e, 'login')}
+            />
+          </Form>
+        </FormContainer>
+      </>
   )
 }
 

@@ -5,6 +5,7 @@ import MetaData from '../components/MetaData';
 import CartItem from '../components/CartItem';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import formatPrice from '../utils/formatPrice';
+import Button from '../components/Button';
 
 function Cart() {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ function Cart() {
   return (
     <>
       <MetaData title='Your Cart' />
+
       <section className='text-center py-14 bg-[#f9f9f9]'>
         <div className='w-11/12 max-w-7xl mx-auto'>
           <h1 className='text-3xl font-bold text-neutral-800 font-accent'>Shopping Cart</h1>
@@ -74,12 +76,11 @@ function Cart() {
                         }
                       </p>
                     </div>
-                    <button
-                      className='mt-4 inline-flex items-center justify-center bg-neutral-900 font-accent px-4 py-2.5 sm:py-4 w-full uppercase font-bold text-white transition-colors hover:bg-neutral-700'
+                    <Button
+                      label='Proceed to checkout'
+                      width='full'
                       onClick={checkoutHandler}
-                    >
-                      Proceed to checkout
-                    </button>
+                    />
                   </div>
                 )
               }

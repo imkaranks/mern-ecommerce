@@ -5,6 +5,7 @@ import MetaData from '../components/MetaData'
 import CheckoutSteps from '../components/CheckoutSteps';
 import CartItem from '../components/CartItem';
 import formatPrice from '../utils/formatPrice';
+import Button from '../components/Button';
 
 function ConfirmOrder() {
   const navigate = useNavigate();
@@ -86,7 +87,7 @@ function ConfirmOrder() {
                         <CartItem
                           key={i}
                           {...cartItem}
-                          readonly={true}b
+                          readonly={true}
                         />
                       ))
                     }
@@ -115,12 +116,11 @@ function ConfirmOrder() {
             <p className='text-lg font-bold'>{formatPrice(total)}</p>
           </div>
 
-          <button
+          <Button
+            label='Proceed to pay'
+            width='full'
             onClick={proceedPayment}
-            className='mt-4 inline-flex items-center justify-center bg-neutral-900 font-accent px-4 py-2.5 sm:py-4 w-full uppercase font-bold text-white transition-colors hover:bg-neutral-700'
-          >
-            Proceed to pay
-          </button>
+          />
         </div>
       </div >
     </>
