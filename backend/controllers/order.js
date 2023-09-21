@@ -5,8 +5,24 @@ const APIError = require('../error/api-error');
 const catchAsyncError = require('../middlewares/catch-async-error');
 
 const createOrder = catchAsyncError(async (req, res, next) => {
+  const {
+    shippingInfo,
+    orderItems,
+    paymentInfo,
+    itemPrice,
+    taxPrice,
+    shippingPrice,
+    totalPrice,
+  } = req.body;
+
   const order = await Order.create({
-    ...req.body,
+    shippingInfo,
+    orderItems,
+    paymentInfo,
+    itemPrice,
+    taxPrice,
+    shippingPrice,
+    totalPrice,
     paidAt: Date.now(),
     user: req.user._id
   });

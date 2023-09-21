@@ -41,7 +41,7 @@ function ConfirmOrder() {
       'orderInfo', JSON.stringify(data)
     );
 
-    navigate('/process/payment');
+    navigate('/payment/process');
   }
 
   return (
