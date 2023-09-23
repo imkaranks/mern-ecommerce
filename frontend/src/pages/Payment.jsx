@@ -60,7 +60,6 @@ function Payment() {
         config
       );
       const client_secret = data.client_secret;
-      console.log(client_secret);
       if (!stripe || !elements) return
       const result = await stripe.confirmCardPayment(client_secret, {
         payment_method: {

@@ -18,20 +18,21 @@ import Shipping from './pages/Shipping';
 import ConfirmOrder from './pages/ConfirmOrder';
 import Payment from './pages/Payment';
 import OrderSuccess from './pages/OrderSuccess';
+import MyOrders from './pages/MyOrders';
+import OrderDetails from './pages/OrderDetails';
 import store from './app/store';
 import { loadUser } from './actions/userAction';
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
-import './App.css';
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState('');
 
-  const fetchStripeApiKey = async() => {
+  const fetchStripeApiKey = async () => {
     try {
       const { data } = await axios.get('/api/v1/payment/stripeapikey');
       setStripeApiKey(data.stripeApiKey);
-    } catch(error) {
+    } catch (error) {
       if (error instanceof Error) {
         console.log(error.message);
       }
@@ -64,22 +65,6 @@ function App() {
           }
         />
         <Route
-          path='shipping'
-          element={
-            <ProtectedRoute>
-              <Shipping />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path='order/confirm'
-          element={
-            <ProtectedRoute>
-              <ConfirmOrder />
-            </ProtectedRoute>
-          }
-        />
-        <Route
           path='me/update'
           element={
             <ProtectedRoute>
@@ -104,6 +89,14 @@ function App() {
           element={<ResetPassword />}
         />
         <Route
+          path='shipping'
+          element={
+            <ProtectedRoute>
+              <Shipping />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path='payment/process'
           element={
             stripeApiKey && (
@@ -113,6 +106,30 @@ function App() {
                 </Elements>
               </ProtectedRoute>
             )
+          }
+        />
+        <Route
+          path='orders'
+          element={
+            <ProtectedRoute>
+              <MyOrders />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='order/confirm'
+          element={
+            <ProtectedRoute>
+              <ConfirmOrder />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='order/:id'
+          element={
+            <ProtectedRoute>
+              <OrderDetails />
+            </ProtectedRoute>
           }
         />
       </Route>

@@ -1,18 +1,19 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Loader from './Loader';
 
 function ProtectedRoute({ children }) {
-  const { isAuthenticated } = useSelector(
+  const { loading, isAuthenticated } = useSelector(
     state => state.user
   );
   const navigate = useNavigate();
 
-  if (!isAuthenticated) {
+  if (loading === false && isAuthenticated === false) {
     return navigate('/auth');
   }
 
-  return children;
+  return loading ? <Loader /> : children;
 }
 
 export default ProtectedRoute;

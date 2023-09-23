@@ -12,7 +12,7 @@ function Profile() {
   );
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (isAuthenticated === false) {
       navigate('/auth');
     }
   }, [isAuthenticated]);

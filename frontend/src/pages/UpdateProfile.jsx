@@ -49,7 +49,7 @@ function UpdateProfile() {
   }
 
   useEffect(() => {
-    if (user) {
+    if (Object.keys(user).length) {
       setName(user.name);
       setEmail(user.email);
       setAvatarPreview(user.avatar.url);
