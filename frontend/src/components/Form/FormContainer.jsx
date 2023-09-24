@@ -1,11 +1,16 @@
-import React from 'react'
+import React from 'react';
+import Heading from '../Heading';
 
 function FormContainer({ label, children, multiple=false }) {
   return (
     <>
       <section className='text-center py-14 bg-[#f9f9f9]'>
         <div className='w-11/12 max-w-7xl mx-auto'>
-          <h1 className='text-3xl font-bold text-neutral-800 font-accent'>{label}</h1>
+          <Heading
+            as='h1'
+            variant='lg'
+            label={label}
+          />
         </div>
       </section>
 

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { Avatar } from '@mui/material';
 import MetaData from '../components/MetaData';
 import Loader from '../components/Loader';
+import { colorVariants, buttonVariants } from '../components/Button';
 
 function Profile() {
   const navigate = useNavigate();
@@ -50,9 +51,9 @@ function Profile() {
           <p>{String(user.createdAt).slice(0, 10)}</p>
         </div>
         <div className='flex flex-col gap-2'>
-          <Link to='/me/update' className='inline-flex justify-center px-6 py-2.5 bg-neutral-800 text-white font-semibold font-accent'>Edit Profile</Link>
-          <Link className='px-6 py-2.5 inline-flex justify-center bg-neutral-800 text-white font-semibold font-accent'>My Orders</Link>
-          <Link to='/password/update' className='px-6 py-2.5 inline-flex justify-center bg-neutral-800 text-white font-semibold font-accent'>Change Password</Link>
+          <Link to='/me/update' className={buttonVariants['lg']('fit', colorVariants['primary'])}>Edit Profile</Link>
+          <Link to='/orders' className={buttonVariants['lg']('fit', colorVariants['primary'])}>My Orders</Link>
+          <Link to='/password/update' className={buttonVariants['lg']('fit', colorVariants['primary'])}>Change Password</Link>
         </div>
       </div>
     </>

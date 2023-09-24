@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { NEW_REVIEW_RESET } from '../constants/productConstant'
-import { clearErrors, getProductDetails, createNewReview } from '../actions/productAction'
-import { addItemToCart } from '../actions/cartAction'
-import Carousel from 'react-material-ui-carousel'
-import Loader from '../components/Loader'
-import RatingStars from '../components/RatingStars'
-import ReviewCard from '../components/ReviewCard'
-import MetaData from '../components/MetaData'
-import formatPrice from '../utils/formatPrice'
+import { useDispatch, useSelector } from 'react-redux';
+import { NEW_REVIEW_RESET } from '../constants/productConstant';
+import { clearErrors, getProductDetails, createNewReview } from '../actions/productAction';
+import { addItemToCart } from '../actions/cartAction';
+import Carousel from 'react-material-ui-carousel';
+import Loader from '../components/Loader';
+import RatingStars from '../components/RatingStars';
+import ReviewCard from '../components/ReviewCard';
+import MetaData from '../components/MetaData';
+import formatPrice from '../utils/formatPrice';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Rating } from '@mui/material'
+import { Rating } from '@mui/material';
+import PrimaryBtn from '../components/Button';
+import Heading from '../components/Heading';
 
 function ProductDetails() {
   const { id } = useParams();
@@ -98,7 +100,11 @@ function ProductDetails() {
             </div>
             <div className='flex-1 text-[#666]'>
               <div>
-                <h2 className='text-[#333] text-3xl font-bold font-accent'>{product.name}</h2>
+                <Heading
+                  as='h2'
+                  variant='lg'
+                  label={product.name}
+                />
                 <RatingStars
                   rating={product.rating}
                   numOfReviews={product.numOfReviews}
@@ -147,13 +153,14 @@ function ProductDetails() {
                     </button>
                   </div>
 
-                  <button
+                  <PrimaryBtn
+                    type='button'
+                    label='Add to cart'
+                    size='md'
+                    variant='primary'
                     disabled={product.stock < 1}
-                    className='px-8 py-1.5 uppercase bg-black text-lg text-white font-medium font-accent transition-colors duration-300 ease'
                     onClick={addToCartHandler}
-                  >
-                    Add to cart
-                  </button>
+                  />
 
                   <button className='border text-[#333] p-1.5'>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
@@ -172,7 +179,12 @@ function ProductDetails() {
             </div>
           </div>
           <div className='mt-6'>
-            <h3 className='uppercase text-xl font-accent font-semibold'>Customer Reviews</h3>
+            <Heading
+              as='h3'
+              variant='md'
+              label='Customer Reviews'
+              isUppercase={true}
+            />
             <div>
               <Button variant="outlined" onClick={() => setOpen(true)}>
                 Submit Review

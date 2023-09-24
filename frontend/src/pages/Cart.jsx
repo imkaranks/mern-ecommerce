@@ -6,6 +6,7 @@ import CartItem from '../components/CartItem';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import formatPrice from '../utils/formatPrice';
 import Button from '../components/Button';
+import { colorVariants, buttonVariants } from '../components/Button';
 
 function Cart() {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ function Cart() {
                     }
                   </tbody>
                 </table>
-                <Link to='/' className='inline-flex items-center justify-center bg-neutral-100 font-accent mt-4 px-8 py-3 uppercase font-bold text-sm text-[#333] transition-colors hover:bg-neutral-200'>Continue shopping</Link>
+                <Link to='/' className={`mt-4 ${buttonVariants['md']('fit', colorVariants.secondary)}`}>Continue shopping</Link>
               </div>
               {
                 cartItems.length && (
@@ -89,7 +90,7 @@ function Cart() {
             <div className='text-[#a3a3a3] flex flex-col gap-2 items-center'>
               <ShoppingBagOutlinedIcon sx={{ fontSize: '5rem' }} />
               <p className='text-center'>Your cart is currently empty.</p>
-              <Link to='/products' className='inline-flex items-center justify-center bg-neutral-800 font-accent px-10 py-2.5 sm:py-4 uppercase font-bold text-white transition-colors hover:bg-neutral-700'>Return to shop</Link>
+              <Link to='/products' className={buttonVariants['md']('fit', colorVariants.primary)}>Return to shop</Link>
             </div>
           )
         }

@@ -16,7 +16,7 @@ function Header() {
   const { cartItems } = useSelector(
     state => state.cart
   );
-  const activeLink = 'text-blue-400 before:content-[""] before:absolute before:left-0 before:right-0 before:bottom-0 before:h-1 md:before:bg-blue-400';
+  const activeLink = 'text-blue-400 before:content-[""] before:absolute before:left-0 before:right-0 before:-bottom-3 before:h-1 md:before:bg-blue-400';
 
   return (
     <header className='py-4'>

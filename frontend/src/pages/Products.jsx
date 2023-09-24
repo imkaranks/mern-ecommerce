@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import { clearErrors, getProduct } from '../actions/productAction'
-import Loader from '../components/Loader'
-import Product from '../components/Product'
-import Paginate from '../components/Paginate'
-import { Slider, TextField, FormControlLabel, Checkbox } from '@mui/material'
-import MetaData from '../components/MetaData'
-import Dropdown from '../components/Dropdown'
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { clearErrors, getProduct } from '../actions/productAction';
+import Loader from '../components/Loader';
+import Product from '../components/Product';
+import Paginate from '../components/Paginate';
+import { Slider, TextField, FormControlLabel, Checkbox } from '@mui/material';
+import MetaData from '../components/MetaData';
+import Dropdown from '../components/Dropdown';
+import Heading from '../components/Heading';
 
 const categories = [
   'laptop',
@@ -85,21 +86,11 @@ function Products() {
               </div>
             </Dropdown>
 
-            <Dropdown label='Categories'>
-              <ul className='text-gray-600 font-normal overflow-hidden capitalize'>
-                {
-                  categories.map((category, i) => (
-                    <li
-                      key={i}
-                      className='px-4 py-1 cursor-pointer transition-colors duration-300 hover:rounded-full hover:bg-[whitesmoke]'
-                      onClick={() => setCategory(category)}
-                    >
-                      {category}
-                    </li>
-                  ))
-                }
-              </ul>
-            </Dropdown>
+            <Dropdown
+              label='Categories'
+              options={categories}
+              onOptionSelect={(val) => setCategory(val)}
+            />
 
             <Dropdown label='Rating Above'>
               <div className='px-4 overflow-hidden'>
@@ -142,7 +133,13 @@ function Products() {
           </div>
 
           <div className='sm:flex-1 grid grid-cols-product gap-4'>
-            <h2 className='mb-8 text-center text-neutral-800 text-xl font-bold font-accent uppercase col-span-full'>Products</h2>
+            <Heading
+              as='h2'
+              variant='md'
+              label='Products'
+              isUppercase={true}
+              style={{textAlign: 'center', marginBottom: '2rem', gridColumn: '1/-1'}}
+            />
             {
               products && products.map(product => (
                 <Product key={product._id} {...product} />
@@ -164,7 +161,7 @@ function Products() {
           </div>
         </div>
       </>
-  )
+  );
 }
 
-export default Products
+export default Products;

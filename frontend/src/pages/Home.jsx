@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import MetaData from '../components/MetaData'
-import Product from '../components/Product'
-import { clearErrors, getProduct } from '../actions/productAction'
-import { useSelector, useDispatch } from 'react-redux'
-import Loader from '../components/Loader'
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import MetaData from '../components/MetaData';
+import Product from '../components/Product';
+import { clearErrors, getProduct } from '../actions/productAction';
+import { useSelector, useDispatch } from 'react-redux';
+import Loader from '../components/Loader';
+import Heading from '../components/Heading';
 
 function Home() {
   const dispatch = useDispatch();
@@ -28,7 +29,13 @@ function Home() {
       <div className='min-h-screen'>
         <section className='py-8'>
           <div className='w-11/12 max-w-7xl mx-auto'>
-            <h2 className='text-center text-neutral-800 text-xl font-bold uppercase'>Shop by category</h2>
+            <Heading
+              as='h2'
+              variant='md'
+              label='Shop by category'
+              style={{ textAlign: 'center' }}
+              isUppercase={true}
+            />
             <div className='text-center mt-6 grid gap-4 grid-cols-product text-neutral-800'>
               <div>
                 <Link to='/products'>
@@ -65,7 +72,13 @@ function Home() {
         </section>
         <section className='py-8'>
           <div className='w-11/12 max-w-7xl mx-auto'>
-            <h2 className='text-center text-neutral-800 text-xl font-bold font-accent uppercase'>Featured Products</h2>
+            <Heading
+              as='h2'
+              variant='md'
+              label='Featured Products'
+              style={{ textAlign: 'center' }}
+              isUppercase={true}
+            />
             <div className='grid mt-6 grid-cols-product gap-4'>
               {
                 products && products.map(product => (
@@ -77,7 +90,7 @@ function Home() {
         </section>
       </div>
     </>
-  )
+  );
 }
 
-export default Home
+export default Home;

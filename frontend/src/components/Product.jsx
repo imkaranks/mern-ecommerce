@@ -1,9 +1,10 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addItemToCart, removeItemFromCart } from '../actions/cartAction';
-import RatingStars from './RatingStars'
-import formatPrice from '../utils/formatPrice'
+import RatingStars from './RatingStars';
+import formatPrice from '../utils/formatPrice';
+import Button from './Button';
 
 function Product({ _id, name, images, numOfReviews, price, rating, category }) {
   const dispatch = useDispatch();
@@ -20,7 +21,13 @@ function Product({ _id, name, images, numOfReviews, price, rating, category }) {
         <Link to={`/product/${_id}`}>
           <img className='w-full h-full object-cover transition-transform duration-300 ease group-hover:scale-110' src={images[0].url} alt="..." />
         </Link>
-        <button className='bg-blue-600 uppercase font-medium font-accent text-xs text-white px-5 py-2 transition-transform duration-300 ease absolute left-0 right-0 bottom-0 translate-y-full group-hover:translate-y-0 focus:translate-y-0 z-10'>Quick view</button>
+        <Button
+          type='button'
+          label='Quick view'
+          size='sm'
+          colorConfig={{ bg: 'blue-600', color: 'white' }}
+          className='text-white transition-transform absolute left-0 right-0 bottom-0 translate-y-full group-hover:translate-y-0 focus:translate-y-0 z-10'
+        />
       </div>
       <div className='px-4 pb-4 pt-2'>
         <span className='text-[#888] text-xs uppercase font-light'>{category}</span>
@@ -43,12 +50,14 @@ function Product({ _id, name, images, numOfReviews, price, rating, category }) {
             </svg>
           </button>
 
-          <button
-            className='px-5 py-1.5 uppercase bg-[#eee] text-xs text-black font-medium font-accent transition-colors duration-300 ease group-hover:bg-black group-hover:text-white'
+          <Button
+            type='button'
+            label='Add to cart'
+            size='sm'
+            variant='secondary'
             onClick={addToCartHandler}
-          >
-            Add to cart
-          </button>
+            className='group-hover:bg-black group-hover:text-white'
+          />
 
           <button className='border text-[#333] p-1.5 -translate-x-full opacity-0 transition-transform duration-300 ease group-hover:translate-x-0 group-hover:opacity-100 focus:translate-x-0 focus:opacity-100'>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-3.5 h-3.5">

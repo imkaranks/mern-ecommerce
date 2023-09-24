@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { saveShippingInfo } from '../actions/cartAction'
-import MetaData from '../components/MetaData'
-import { Country, State } from 'country-state-city'
+import { saveShippingInfo } from '../actions/cartAction';
+import MetaData from '../components/MetaData';
+import { Country, State } from 'country-state-city';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { Form, FormGroup } from '../components/Form';
 import Button from '../components/Button';
+import Heading from '../components/Heading';
 
 function Shipping() {
   const navigate = useNavigate();
@@ -48,7 +49,11 @@ function Shipping() {
 
       <section className='text-center py-14 bg-[#f9f9f9]'>
         <div className='w-11/12 max-w-7xl mx-auto'>
-          <h1 className='text-3xl font-bold text-neutral-800 font-accent'>Shipping Details</h1>
+          <Heading
+            as='h1'
+            variant='lg'
+            label='Shipping Details'
+          />
         </div>
       </section>
 
@@ -129,7 +134,7 @@ function Shipping() {
         </div>
       </section>
     </>
-  )
+  );
 }
 
-export default Shipping
+export default Shipping;
